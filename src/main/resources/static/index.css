@@ -1,0 +1,54 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#chat-section {
+    max-width: 480px;
+    height: 480px;
+    border: 1px solid #000;
+    margin: 0 auto;
+}
+
+.chat-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: .5em;
+}
+
+.chat-container .chat-list {
+    height: 90%;
+    padding: .85em;
+    border: 1px solid #999;
+    margin-bottom: .5em;
+    overflow-y: scroll;
+}
+
+.chat-container .chat-list .message > h3 {
+    padding: 0;
+    margin: 0;
+}
+
+.chat-container .chat-options {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat-container .chat-options input[name='message'] {
+    padding: .55em 1em;
+    flex: 1;
+    border: 1px solid #979797;
+    outline: none;
+    margin-right: 1em;
+}

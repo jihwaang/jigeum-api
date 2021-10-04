@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1.0, user-scalable=no; user-scalable=0;" />
+    <title>Jiguem dev</title>
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/css/datepicker.min.css">-->
+<!--    <script defer src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/datepicker.min.js"></script>-->
+    <script defer src="../static/index.js"></script>
+    <link rel="stylesheet" href="../static/index.css">
+</head>
+<body>
+    <section id="chat-section">
+        <div class="chat-container">
+            <div class="chat-list">
+                <div class="message">
+                    <h3 class="username">닉네임</h3>
+                    <p class="message-content">메시지내용</p>
+                </div>
+            </div>
+            <div class="chat-options">
+                <label for="message"></label>
+                <input type="text" name="message" id="message">
+                <input type="button" id="btn-send"value="전송">
+            </div>
+        </div>
+    </section>
+    <div id="main">Hello world</div>
+    <form action="/rooms" id="form-plan" style="display:flex; flex-direction: column; place-items: center">
+        <label for="title">약속제목</label>
+        <input type="text" name="title" id="title" />
+        <label for="isPrivate">비밀 약속 OFF</label>
+        <select name="isPrivate" id="isPrivate">
+            <option value="off" selected>off</option>
+            <option value="on">on</option>
+        </select>
+        <label for="placeIn">약속장소</label>
+        <input type="text" name="placeIn" id="placeIn" />
+        <label for="peopleNumber">인원</label>
+        <select name="peopleNumber" id="peopleNumber">
+            <option value="2">2명</option>
+            <option value="3">3명</option>
+        </select>
+        <label>약속일시</label>
+        <label for="year">년도</label>
+        <input type="text" id="year">
+        <label for="month">월</label>
+        <input type="text" id="month">
+        <label for="date">일</label>
+        <input type="text" id="date">
+        <label for="hour">시</label>
+        <input type="text" id="hour">
+        <label for="minute">분</label>
+        <input type="text" id="minute">
+        <input type="hidden" name="placeAt" id="placeAt"/>
+        <label for="beforeStart">약속전 공유시작</label>
+        <select name="beforeStart" id="beforeStart">
+            <option value="60">1시간</option>
+            <option value="30">30분</option>
+            <option value="15" selected>15분</option>
+        </select>
+        <label for="afterEnd">약속 후 공유종료</label>
+        <select name="afterEnd" id="afterEnd">
+            <option value="15">15분</option>
+            <option value="30">30분</option>
+            <option value="60">1시간</option>
+        </select>
+        <input type="hidden" name="host" id="host">
+        <input type="hidden" name="longitude" id="longitude">
+        <input type="hidden" name="latitude" id="latitude">
+        <input type="button" id="btn-submit" value="create a plan">
+    </form>
+</body>
+</html>
