@@ -83,4 +83,9 @@ public class UserRepositoryImpl implements UserRepository{
     public User findById(String userId) {
         return getResultObject(USER_KEY, userId, User.class);
     }
+
+    @Override
+    public void setRandomColor(User user) {
+        user.setRandomColor();
+    }
 }

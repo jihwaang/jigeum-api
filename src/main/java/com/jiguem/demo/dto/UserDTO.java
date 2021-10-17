@@ -25,6 +25,14 @@ public class UserDTO {
     private String lastLatitude;
 
     public static User toEntity(String roomId, UserDTO userDTO) {
+        if (userDTO.getName() != null) {
+            return User.builder()
+                    .id(userDTO.getId())
+                    .name(Map.of(roomId, userDTO.getName()))
+                    .isToBeLate(userDTO.getIsToBeLate() != null && userDTO.getIsToBeLate())
+                    .isBanned(userDTO.getIsBanned() != null && userDTO.getIsBanned())
+                    .build();
+        }
         return User.builder()
                 .id(userDTO.getId())
                 .isToBeLate(userDTO.getIsToBeLate() != null && userDTO.getIsToBeLate())

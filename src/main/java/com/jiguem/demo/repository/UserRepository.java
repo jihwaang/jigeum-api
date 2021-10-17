@@ -21,4 +21,6 @@ public interface UserRepository {
     User updateUserName(Room room, User user);
 
     User findById(String userId);
+
+    void setRandomColor(User user);
 }

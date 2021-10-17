@@ -117,8 +117,8 @@ public class Room {
         // update user nickname of messages
         if (nameChanged && this.conversation != null) {
             this.conversation.stream()
-                    .filter(message -> message.getSenderId().equals(user.getId()))
-                    .forEach(message -> message.setSender(user.getUsername(this.id)));
+                    .filter(message -> Objects.equals(message.getSenderId(), user.getId()))
+                    .forEach(message -> message.setSender(user.getName().get(this.getId())));
         }
         return this;
     }

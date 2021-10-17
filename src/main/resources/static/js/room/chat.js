@@ -73,13 +73,14 @@ const ROOM = {
 
 const CHAT = {
     connect: function(event) {
-        const socket = new SockJS('http://localhost:8081/websocket');
+        const socket = new SockJS('/websocket');
         stompClient = Stomp.over(socket);
         stompClient.connect({clientId: userId, roomId: roomId}, CHAT.onConnected, CHAT.onError)
-
+        console.log('connect try here');
     },
-    onConnected: async function() {
-        let messageBroker = `/room/${roomId}`;
+    onConnected: async function (options) {
+        console.log(`userId: ${userId}, roomId: ${roomId}`);
+        let messageBroker = '/room/'+roomId;
         console.log('messageBroker::', messageBroker);
         let publish = '/chat/send';
         stompClient.subscribe(messageBroker, CHAT.onMessageReceived, {clientId: userId, roomId: roomId});
@@ -101,6 +102,7 @@ const CHAT = {
     },
     onMessageReceived: function({body}) {
         const message = JSON.parse(body);
+        console.log(message);
         CHAT.showMessage(message);
     },
     sendMessage: function(event) {

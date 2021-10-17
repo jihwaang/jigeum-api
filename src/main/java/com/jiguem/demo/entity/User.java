@@ -24,6 +24,7 @@ public class User {
     private String lastLatitude;
     private Boolean isToBeLate;
     private ROLE role;
+    private String color;
 
     private Set<String> rooms;
 
@@ -63,8 +64,8 @@ public class User {
     public User setBeforeJoiningRoom(Room room, String username) {
         this.addRoomId(room.getId());
         this.role = this.id.equals(room.getHost()) ? ROLE.HOST : ROLE.PARTICIPANT;
+        this.setRandomColor();
         return updateName(room, username);
-
     }
 
     public String getUsername(String roomId) {
@@ -95,6 +96,12 @@ public class User {
         } else {
             this.name.replace(roomId, this.name.get(roomId), name);
         }
+    }
+
+    public void setRandomColor() {
+        Random rand = new Random();
+        int color = rand.nextInt(0xFFFFFF+1);
+        this.color = String.format("#%06x", color);
     }
 
 }

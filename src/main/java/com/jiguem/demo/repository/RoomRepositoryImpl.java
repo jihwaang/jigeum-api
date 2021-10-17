@@ -39,6 +39,7 @@ public class RoomRepositoryImpl implements RoomRepository {
         userRepository.addRoom(user, room.getId());
         userRepository.setRoleToHost(user);
         userRepository.setHostName(room, user);
+        userRepository.setRandomColor(user);
 
         // save room
         redisTemplate.opsForHash().put(ROOM_KEY, room.getId(), room.addParticipate(user));

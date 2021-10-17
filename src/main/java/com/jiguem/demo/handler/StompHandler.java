@@ -73,20 +73,20 @@ public class StompHandler implements ChannelInterceptor {
 
                 break;
             case DISCONNECT:
-                log.info("========DISCONNECT========");
-                log.info("accessor is [}, message is {}, channel is {}", accessor, message, channel);
-                log.info("destination is {}", destination);
-                log.info("user name is {}", this.usernames.get(accessor.getSessionId()));
-                String sender = this.usernames.get(accessor.getSessionId());
-                String senderId = this.userIds.get(accessor.getSessionId());
-                if (destination != null) {
-                    //String name = Optional.ofNullable((Principal) message.getHeaders().get("simpUser")).map(Principal::getName).orElse("UnknownUser");
-                    String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-                    log.info("timestamp is {}", timestamp);
-                    MessageDTO messageDTO = MessageDTO.builder().type(MessageType.LEAVE).roomId(subId).senderId(senderId).sender(sender).content("앱을 종료하셨습니다.").timestamp(LocalDateTime.now()).build();
-                    chatService.save(messageDTO);
-                    messagingTemplate.convertAndSend(destination, messageDTO);
-                }
+//                log.info("========DISCONNECT========");
+//                log.info("accessor is [}, message is {}, channel is {}", accessor, message, channel);
+//                log.info("destination is {}", destination);
+//                log.info("user name is {}", this.usernames.get(accessor.getSessionId()));
+//                String sender = this.usernames.get(accessor.getSessionId());
+//                String senderId = this.userIds.get(accessor.getSessionId());
+//                if (destination != null) {
+//                    //String name = Optional.ofNullable((Principal) message.getHeaders().get("simpUser")).map(Principal::getName).orElse("UnknownUser");
+//                    String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+//                    log.info("timestamp is {}", timestamp);
+//                    MessageDTO messageDTO = MessageDTO.builder().type(MessageType.LEAVE).roomId(subId).senderId(senderId).sender(sender).content("앱을 종료하셨습니다.").timestamp(LocalDateTime.now()).build();
+//                    chatService.save(messageDTO);
+//                    messagingTemplate.convertAndSend(destination, messageDTO);
+//                }
                 break;
             default:
                 break;
