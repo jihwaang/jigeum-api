@@ -1,5 +1,5 @@
 package com.jiguem.demo;
 
 public enum MessageType {
-    ENTER, CONNECT, LEAVE
+    ENTER, CONNECT, LEAVE, LOCATION
 }

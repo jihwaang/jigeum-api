@@ -22,9 +22,11 @@ public class User {
     private Boolean isBanned;
     private String lastLongitude;
     private String lastLatitude;
-    private Boolean isToBeLate;
+    private Boolean isTooLate;
+    private Boolean yetToArrive;
     private ROLE role;
     private String color;
+    private Boolean isSharing;
 
     private Set<String> rooms;
 
@@ -65,6 +67,7 @@ public class User {
         this.addRoomId(room.getId());
         this.role = this.id.equals(room.getHost()) ? ROLE.HOST : ROLE.PARTICIPANT;
         this.setRandomColor();
+        this.setDefaultStatus();
         return updateName(room, username);
     }
 
@@ -83,8 +86,10 @@ public class User {
         String roomId = room.getId();
         String name = this.name.get(roomId);
 
-        this.isToBeLate = (userToUpdate.getIsToBeLate() != null && userToUpdate.getIsToBeLate());
+        this.isTooLate = (userToUpdate.getIsTooLate() != null && userToUpdate.getIsTooLate());
+        this.yetToArrive = (userToUpdate.getYetToArrive() != null && userToUpdate.getYetToArrive());
         this.isBanned = (userToUpdate.getIsBanned() != null && userToUpdate.getIsBanned());
+        this.isSharing = (userToUpdate.getIsSharing() != null && userToUpdate.getIsSharing());
 
         return this;
     }
@@ -94,7 +99,12 @@ public class User {
             this.name = new HashMap<>();
             this.name.put(roomId, name);
         } else {
-            this.name.replace(roomId, this.name.get(roomId), name);
+            if (this.name.get(roomId) == null) {
+                this.name.put(roomId, name);
+            } else {
+                this.name.replace(roomId, this.name.get(roomId), name);
+            }
+
         }
     }
 
@@ -102,6 +112,19 @@ public class User {
         Random rand = new Random();
         int color = rand.nextInt(0xFFFFFF+1);
         this.color = String.format("#%06x", color);
+    }
+
+    public void setDefaultStatus() {
+        this.setIsBanned(false);
+        this.setIsTooLate(false);
+        this.setYetToArrive(true);
+        this.setIsSharing(false);
+    }
+
+    public User updateLocation(Message message) {
+        this.setLastLatitude(message.getLatitude());
+        this.setLastLongitude(message.getLongitude());
+        return this;
     }
 
 }

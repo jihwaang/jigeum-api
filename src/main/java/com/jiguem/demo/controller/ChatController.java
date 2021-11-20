@@ -27,4 +27,12 @@ public class ChatController {
         log.info("destination is {}", destination);
         messagingTemplate.convertAndSend(destination, messageDTO);
     }
+
+    @MessageMapping("/locate")
+    public void sendLocation(MessageDTO messageDTO) {
+        log.info("ChatController-sendLocation: message is {}", messageDTO);
+        String destination = chatService.updateUserLocation(messageDTO);
+        log.info("destination is {}", destination);
+        messagingTemplate.convertAndSend(destination, messageDTO);
+    }
 }

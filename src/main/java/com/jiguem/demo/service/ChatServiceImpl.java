@@ -19,4 +19,16 @@ public class ChatServiceImpl implements ChatService{
         Message message = MessageDTO.toEntity(messageDTO);
         return chatRepository.save(message);
     }
+
+    @Override
+    public String findRoomID(MessageDTO messageDTO) {
+        Message message = MessageDTO.toEntity(messageDTO);
+        return chatRepository.findRoomID(message);
+    }
+
+    @Override
+    public String updateUserLocation(MessageDTO messageDTO) {
+        Message message = MessageDTO.toEntity(messageDTO);
+        return chatRepository.updateUserLocation(message);
+    }
 }

@@ -6,6 +6,7 @@ import com.jiguem.demo.entity.Room;
 import com.jiguem.demo.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,11 +41,19 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> find(@PathVariable String id/*, @RequestBody UserDTO userDTO*/) {
+    public ResponseEntity<RoomDTO> find(@PathVariable String id/*, @RequestBody UserDTO userDTO*/) {
         log.info("RoomController-find: id is {}", id);
-        //RoomDTO room = roomService.findByIdThenAddUser(id, userDTO);
-        //return ResponseEntity.ok(room);
-        return ResponseEntity.ok(id);
+        RoomDTO roomDTO = roomService.findById(id);
+        log.info("RoomController-find: room is {}", roomDTO);
+        return ResponseEntity.ok(roomDTO);
+    }
+
+    @GetMapping("/{id}/users/{userId}")
+    public ResponseEntity<UserDTO> findUser(@PathVariable String id, @PathVariable String userId) {
+        log.info("RoomController-findUser : id is {}, userId is {}", id, userId);
+        UserDTO user = roomService.findUser(id, userId);
+        log.info("user in the room is: {}", user);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/{roomId}")
@@ -60,4 +69,5 @@ public class RoomController {
         RoomDTO room = roomService.updateUser(roomId, userId, userDTO);
         return ResponseEntity.ok(room);
     }
+
 }

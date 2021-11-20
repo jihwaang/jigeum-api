@@ -4,27 +4,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jiguem.demo.dto.UserDTO;
 import com.jiguem.demo.entity.Room;
 import com.jiguem.demo.entity.User;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
-@RequiredArgsConstructor
 @Repository
 public class UserRepositoryImpl implements UserRepository{
 
-    private final RedisTemplate<String, Object> redisTemplate;
-    private final ObjectMapper objectMapper;
+    private RedisTemplate<String, Object> redisTemplate;
+    private ObjectMapper objectMapper;
+
+    public UserRepositoryImpl(RedisTemplate<String, Object> redisTemplate, ObjectMapper objectMapper) {
+        this.redisTemplate = redisTemplate;
+        this.objectMapper = objectMapper;
+    }
 
     private final String USER_KEY = "USER_KEY";
+    private final String ROOM_KEY = "ROOM_KEY";
 
     private <T> T getResultObject(String key, String id, Class<T> classType) {
         T obj = objectMapper.convertValue(redisTemplate.opsForHash().get(key, id), classType);
@@ -87,5 +86,32 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     public void setRandomColor(User user) {
         user.setRandomColor();
+    }
+
+    @Override
+    public UserDTO findByRoom(String id, Room room) {
+        User user = room.getUsers().get(id);
+        if (user == null) {
+            throw new IllegalArgumentException(String.format("User %s does not exist in the room", id));
+        }
+        return UserDTO.builder()
+                .id(user.getId())
+                .name(user.getUsername(room.getId()))
+                .isBanned(user.getIsBanned())
+                .isTooLate(user.getIsTooLate())
+                .lastLongitude(user.getLastLongitude())
+                .lastLatitude(user.getLastLatitude())
+                .color(user.getColor())
+                .build();
+    }
+
+    @Override
+    public void setDefaultStatus(User user) {
+        user.setDefaultStatus();
+    }
+
+    @Override
+    public void updateUser(User user) {
+        redisTemplate.opsForHash().put(USER_KEY, user.getId(), user);
     }
 }

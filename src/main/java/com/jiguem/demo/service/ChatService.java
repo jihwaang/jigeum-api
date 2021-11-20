@@ -5,4 +5,8 @@ import com.jiguem.demo.entity.Message;
 
 public interface ChatService {
     String save(MessageDTO messageDTO);
+
+    String findRoomID(MessageDTO messageDTO);
+
+    String updateUserLocation(MessageDTO messageDTO);
 }

@@ -1,15 +1,12 @@
 package com.jiguem.demo.dto;
 
-import com.jiguem.demo.entity.Room;
 import com.jiguem.demo.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Builder
 @AllArgsConstructor
@@ -19,24 +16,32 @@ public class UserDTO {
 
     private String id;
     private String name;
-    private Boolean isToBeLate;
+    private Boolean isTooLate;
+    private Boolean yetToArrive;
     private Boolean isBanned;
     private String lastLongitude;
     private String lastLatitude;
+    private String color;
+    private Boolean isSharing;
 
     public static User toEntity(String roomId, UserDTO userDTO) {
         if (userDTO.getName() != null) {
             return User.builder()
                     .id(userDTO.getId())
                     .name(Map.of(roomId, userDTO.getName()))
-                    .isToBeLate(userDTO.getIsToBeLate() != null && userDTO.getIsToBeLate())
-                    .isBanned(userDTO.getIsBanned() != null && userDTO.getIsBanned())
+                    .isTooLate(userDTO.getIsTooLate())
+                    .yetToArrive(userDTO.getYetToArrive())
+                    .isBanned(userDTO.getIsBanned())
+                    .color(userDTO.getColor())
+                    .isSharing(userDTO.getIsSharing())
                     .build();
         }
         return User.builder()
                 .id(userDTO.getId())
-                .isToBeLate(userDTO.getIsToBeLate() != null && userDTO.getIsToBeLate())
+                .isTooLate(userDTO.getIsTooLate() != null && userDTO.getIsTooLate())
+                .yetToArrive((userDTO.getYetToArrive() != null && userDTO.getYetToArrive()))
                 .isBanned(userDTO.getIsBanned() != null && userDTO.getIsBanned())
+                .isSharing(userDTO.getIsSharing() != null &&  userDTO.getIsSharing())
                 .build();
     }
 

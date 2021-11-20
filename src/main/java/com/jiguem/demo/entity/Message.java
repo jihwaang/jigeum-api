@@ -21,6 +21,8 @@ public class Message {
     private String receiver;
     private String roomId;
     private String senderId;
+    private String latitude;
+    private String longitude;
     private LocalDateTime timestamp;
 
     public Message createTimestramp() {

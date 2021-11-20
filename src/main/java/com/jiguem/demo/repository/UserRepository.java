@@ -23,4 +23,10 @@ public interface UserRepository {
     User findById(String userId);
 
     void setRandomColor(User user);
+
+    UserDTO findByRoom(String id, Room room);
+
+    void setDefaultStatus(User user);
+
+    void updateUser(User user);
 }

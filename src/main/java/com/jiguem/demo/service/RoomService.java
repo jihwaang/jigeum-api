@@ -14,4 +14,8 @@ public interface RoomService {
     RoomDTO findByIdThenAddUser(String id, UserDTO userDTO);
 
     RoomDTO updateUser(String roomId, String userId, UserDTO userDTO);
+
+    UserDTO findUser(String id, String userId);
+
+    RoomDTO findById(String id);
 }

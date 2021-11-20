@@ -3,11 +3,13 @@ package com.jiguem.demo.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jiguem.demo.dto.RoomDTO;
+import com.jiguem.demo.dto.UserDTO;
 import com.jiguem.demo.entity.Message;
 import com.jiguem.demo.entity.Room;
 import com.jiguem.demo.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,13 +17,18 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RequiredArgsConstructor
 @Repository
 public class RoomRepositoryImpl implements RoomRepository {
 
-    private final RedisTemplate<String, Object> redisTemplate;
-    private final ObjectMapper mapper;
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
+    private RedisTemplate<String, Object> redisTemplate;
+    private ObjectMapper mapper;
+
+    public RoomRepositoryImpl(UserRepository userRepository, RedisTemplate<String, Object> redisTemplate, ObjectMapper mapper) {
+        this.userRepository = userRepository;
+        this.redisTemplate = redisTemplate;
+        this.mapper = mapper;
+    }
     private final String ROOM_KEY = "ROOM_KEY";
     private final String USER_KEY = "USER_KEY";
     private final String ROOM_NOT_FOUND_EXCEPTION = "%s NOT FOUND";
@@ -37,9 +44,11 @@ public class RoomRepositoryImpl implements RoomRepository {
         // add user to userList
         var user = getResultObject(USER_KEY, room.getHost(), User.class);
         userRepository.addRoom(user, room.getId());
+        userRepository.setNameInRoom(room.getId(), room.getHostName(), user);
         userRepository.setRoleToHost(user);
         userRepository.setHostName(room, user);
         userRepository.setRandomColor(user);
+        userRepository.setDefaultStatus(user);
 
         // save room
         redisTemplate.opsForHash().put(ROOM_KEY, room.getId(), room.addParticipate(user));
@@ -164,5 +173,25 @@ public class RoomRepositoryImpl implements RoomRepository {
         redisTemplate.opsForHash().put(ROOM_KEY, room.getId(), room);
 
         return room;
+    }
+
+    @Override
+    public Room updateUserLocation(User userToUpdated, Room room) {
+        var user = room.getUsers().get(userToUpdated.getId());
+        log.info("user in the room is {}", user);
+        if (user == null) throw new IllegalArgumentException(String.format(USER_NOT_FOUND_EXCEPTION, userToUpdated.getId()));
+        userRepository.updateUser(userToUpdated);
+
+        room = room.applyUpdatedUser(userToUpdated);
+        log.info("updated room is: {}", room);
+
+        redisTemplate.opsForHash().put(ROOM_KEY, room.getId(), room);
+
+        return room;
+    }
+
+    @Override
+    public User findUser(Room room, String userId) {
+        return room.getUsers().get(userId);
     }
 }

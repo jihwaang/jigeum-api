@@ -23,5 +23,4 @@ public class UserController {
         log.info("ResponseEntity<UserDTO>: {}", userDTO);
         return ResponseEntity.ok(userDTO);
     }
-
 }

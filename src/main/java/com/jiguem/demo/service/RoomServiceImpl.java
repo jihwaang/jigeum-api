@@ -59,12 +59,36 @@ public class RoomServiceImpl implements RoomService{
         User user = UserDTO.toEntity(roomId, userDTO);
 
         if (userDTO.getName() != null) {
+            // change name here
             room = roomRepository.updateUserName(userDTO.getName(), userId, room);
         }
-        else {
-            room = roomRepository.updateUserStatus(room, userId, user);
-        }
+        // change only status
+        room = roomRepository.updateUserStatus(room, userId, user);
 
+        return Room.convertToDTO(room);
+    }
+
+    @Override
+    public UserDTO findUser(String id, String userId) {
+        Room room = roomRepository.findById(id);
+        if (room == null) {
+            throw new IllegalArgumentException(String.format("room id {} not found", id));
+        }
+        User user = roomRepository.findUser(room, userId);
+        return UserDTO.builder()
+                .id(user.getId())
+                .name(user.getUsername(room.getId()))
+                .color(user.getColor())
+                .isTooLate(user.getIsTooLate())
+                .isBanned(user.getIsBanned())
+                .lastLongitude(user.getLastLongitude())
+                .lastLongitude(user.getLastLongitude())
+                .build();
+    }
+
+    @Override
+    public RoomDTO findById(String id) {
+        Room room = roomRepository.findById(id);
         return Room.convertToDTO(room);
     }
 

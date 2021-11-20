@@ -27,6 +27,7 @@ public class RoomDTO {
     private String isPrivate;
     private String password;
     private String placeIn;
+    private String placeName;
     private String peopleNumber;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime placeAt;
@@ -46,6 +47,7 @@ public class RoomDTO {
                 .isPrivate(dto.getIsPrivate())
                 .password(dto.getPassword())
                 .placeIn(dto.getPlaceIn())
+                .placeName(dto.getPlaceName())
                 .peopleNumber(dto.getPeopleNumber())
                 .placeAt(dto.getPlaceAt())
                 .beforeStart(dto.getBeforeStart())

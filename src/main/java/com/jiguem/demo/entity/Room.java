@@ -27,6 +27,7 @@ public class Room {
     private String isPrivate;
     private String password;
     private String placeIn;
+    private String placeName;
     private String peopleNumber;
     private LocalDateTime placeAt;
     private String beforeStart;
@@ -70,6 +71,7 @@ public class Room {
         this.isPrivate = room.getIsPrivate();
         this.password = room.getPassword();
         this.placeIn = room.getPlaceIn();
+        this.placeName = room.getPlaceName();
         this.peopleNumber = room.getPeopleNumber();
         this.placeAt = room.getPlaceAt();
         this.beforeStart = room.getBeforeStart();
@@ -94,6 +96,7 @@ public class Room {
                 .isPrivate(room.getIsPrivate())
                 .password(room.getPassword())
                 .placeIn(room.getPlaceIn())
+                .placeName(room.getPlaceName())
                 .peopleNumber(room.getPeopleNumber())
                 .placeAt(room.getPlaceAt())
                 .beforeStart(room.getBeforeStart())

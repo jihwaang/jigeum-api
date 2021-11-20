@@ -22,6 +22,8 @@ public class MessageDTO {
     private String receiver;
     private String roomId;
     private String senderId;
+    private String latitude;
+    private String longitude;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime timestamp;
 
@@ -33,6 +35,8 @@ public class MessageDTO {
                 .receiver(messageDTO.getReceiver())
                 .roomId(messageDTO.getRoomId())
                 .senderId(messageDTO.getSenderId())
+                .latitude((messageDTO.getLatitude()))
+                .longitude((messageDTO.getLongitude()))
                 .timestamp(messageDTO.getTimestamp())
                 .build();
     }
